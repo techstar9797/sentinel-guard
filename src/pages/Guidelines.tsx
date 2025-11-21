@@ -255,20 +255,20 @@ const Guidelines = () => {
         <Card className="p-8 bg-gradient-to-br from-card to-muted/20">
           <div className="flex flex-col items-center space-y-6">
             {/* Cycle Steps */}
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 w-full items-center">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-3 w-full items-center">
               {/* Step 1: Cases */}
               <div className="flex flex-col items-center">
                 <div className="relative">
-                  <Card className="p-6 bg-primary/10 border-2 border-primary/30 hover:shadow-lg transition-all hover:scale-105">
-                    <div className="flex flex-col items-center text-center space-y-2">
-                      <div className="text-4xl mb-2">📋</div>
-                      <h3 className="font-bold text-sm">Cases & Labels</h3>
-                      <p className="text-xs text-muted-foreground">
+                  <Card className="p-4 bg-primary/10 border border-primary/30 hover:shadow-lg transition-all hover:scale-105">
+                    <div className="flex flex-col items-center text-center space-y-1">
+                      <div className="text-3xl mb-1">📋</div>
+                      <h3 className="font-bold text-xs">Cases & Labels</h3>
+                      <p className="text-[10px] text-muted-foreground leading-tight">
                         Real decisions with human feedback
                       </p>
                     </div>
                   </Card>
-                  <div className="hidden md:block absolute -right-6 top-1/2 transform -translate-y-1/2 text-3xl text-primary animate-pulse">
+                  <div className="hidden md:block absolute -right-4 top-1/2 transform -translate-y-1/2 text-2xl text-primary animate-pulse">
                     →
                   </div>
                 </div>
@@ -277,16 +277,16 @@ const Guidelines = () => {
               {/* Step 2: Coach Analysis */}
               <div className="flex flex-col items-center">
                 <div className="relative">
-                  <Card className="p-6 bg-green-500/10 border-2 border-green-500/30 hover:shadow-lg transition-all hover:scale-105">
-                    <div className="flex flex-col items-center text-center space-y-2">
-                      <div className="text-4xl mb-2">📊</div>
-                      <h3 className="font-bold text-sm">Coach Analysis</h3>
-                      <p className="text-xs text-muted-foreground">
+                  <Card className="p-4 bg-green-500/10 border border-green-500/30 hover:shadow-lg transition-all hover:scale-105">
+                    <div className="flex flex-col items-center text-center space-y-1">
+                      <div className="text-3xl mb-1">📊</div>
+                      <h3 className="font-bold text-xs">Coach Analysis</h3>
+                      <p className="text-[10px] text-muted-foreground leading-tight">
                         Pattern identification & gap analysis
                       </p>
                     </div>
                   </Card>
-                  <div className="hidden md:block absolute -right-6 top-1/2 transform -translate-y-1/2 text-3xl text-green-500 animate-pulse">
+                  <div className="hidden md:block absolute -right-4 top-1/2 transform -translate-y-1/2 text-2xl text-green-500 animate-pulse">
                     →
                   </div>
                 </div>
@@ -295,16 +295,16 @@ const Guidelines = () => {
               {/* Step 3: New Playbooks */}
               <div className="flex flex-col items-center">
                 <div className="relative">
-                  <Card className="p-6 bg-blue-500/10 border-2 border-blue-500/30 hover:shadow-lg transition-all hover:scale-105">
-                    <div className="flex flex-col items-center text-center space-y-2">
-                      <div className="text-4xl mb-2">📚</div>
-                      <h3 className="font-bold text-sm">New Playbooks</h3>
-                      <p className="text-xs text-muted-foreground">
+                  <Card className="p-4 bg-blue-500/10 border border-blue-500/30 hover:shadow-lg transition-all hover:scale-105">
+                    <div className="flex flex-col items-center text-center space-y-1">
+                      <div className="text-3xl mb-1">📚</div>
+                      <h3 className="font-bold text-xs">New Playbooks</h3>
+                      <p className="text-[10px] text-muted-foreground leading-tight">
                         Learned rules & patterns
                       </p>
                     </div>
                   </Card>
-                  <div className="hidden md:block absolute -right-6 top-1/2 transform -translate-y-1/2 text-3xl text-blue-500 animate-pulse">
+                  <div className="hidden md:block absolute -right-4 top-1/2 transform -translate-y-1/2 text-2xl text-blue-500 animate-pulse">
                     →
                   </div>
                 </div>
@@ -313,16 +313,16 @@ const Guidelines = () => {
               {/* Step 4: Agent Update */}
               <div className="flex flex-col items-center">
                 <div className="relative">
-                  <Card className="p-6 bg-orange-500/10 border-2 border-orange-500/30 hover:shadow-lg transition-all hover:scale-105">
-                    <div className="flex flex-col items-center text-center space-y-2">
-                      <div className="text-4xl mb-2">🔄</div>
-                      <h3 className="font-bold text-sm">Agent Version</h3>
-                      <p className="text-xs text-muted-foreground">
+                  <Card className="p-4 bg-orange-500/10 border border-orange-500/30 hover:shadow-lg transition-all hover:scale-105">
+                    <div className="flex flex-col items-center text-center space-y-1">
+                      <div className="text-3xl mb-1">🔄</div>
+                      <h3 className="font-bold text-xs">Agent Version</h3>
+                      <p className="text-[10px] text-muted-foreground leading-tight">
                         Detective v2 → v3 → v4
                       </p>
                     </div>
                   </Card>
-                  <div className="hidden md:block absolute -right-6 top-1/2 transform -translate-y-1/2 text-3xl text-orange-500 animate-pulse">
+                  <div className="hidden md:block absolute -right-4 top-1/2 transform -translate-y-1/2 text-2xl text-orange-500 animate-pulse">
                     →
                   </div>
                 </div>
@@ -330,11 +330,11 @@ const Guidelines = () => {
 
               {/* Step 5: Improved Metrics */}
               <div className="flex flex-col items-center">
-                <Card className="p-6 bg-success/10 border-2 border-success/30 hover:shadow-lg transition-all hover:scale-105">
-                  <div className="flex flex-col items-center text-center space-y-2">
-                    <div className="text-4xl mb-2">📈</div>
-                    <h3 className="font-bold text-sm">Better Metrics</h3>
-                    <p className="text-xs text-muted-foreground">
+                <Card className="p-4 bg-success/10 border border-success/30 hover:shadow-lg transition-all hover:scale-105">
+                  <div className="flex flex-col items-center text-center space-y-1">
+                    <div className="text-3xl mb-1">📈</div>
+                    <h3 className="font-bold text-xs">Better Metrics</h3>
+                    <p className="text-[10px] text-muted-foreground leading-tight">
                       Higher APS, fewer errors
                     </p>
                   </div>
