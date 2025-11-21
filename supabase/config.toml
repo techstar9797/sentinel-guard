@@ -5,3 +5,12 @@ verify_jwt = false
 
 [functions.moralis-screen]
 verify_jwt = false
+
+[functions.skyflow-tokenize]
+verify_jwt = false
+
+[functions.skyflow-detokenize]
+verify_jwt = false
+
+[functions.screen-with-privacy]
+verify_jwt = false
