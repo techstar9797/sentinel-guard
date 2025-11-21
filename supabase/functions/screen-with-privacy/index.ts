@@ -35,16 +35,41 @@ serve(async (req) => {
       console.log('PII tokenized successfully');
     }
 
-    // Step 2: Screen wallet with TRM
-    const trmResponse = await supabase.functions.invoke('trm-screen', {
-      body: { address: walletAddress }
-    });
-
-    if (trmResponse.error) {
-      throw new Error(`TRM screening failed: ${trmResponse.error.message}`);
+    // Step 2: Screen wallet with TRM directly
+    const trmApiKey = Deno.env.get('TRM_API_KEY');
+    if (!trmApiKey) {
+      throw new Error('TRM_API_KEY is not configured');
     }
 
-    const trmData = trmResponse.data;
+    const trmResponse = await fetch(`https://api.trmlabs.com/public/v2/screening/addresses`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${btoa(trmApiKey + ':')}`
+      },
+      body: JSON.stringify([{ address: walletAddress, chain: 'ethereum' }])
+    });
+
+    if (!trmResponse.ok) {
+      const errorText = await trmResponse.text();
+      console.error('TRM API error:', errorText);
+      throw new Error(`TRM API request failed: ${trmResponse.status}`);
+    }
+
+    const trmResults = await trmResponse.json();
+    console.log('TRM screening response:', trmResults);
+
+    // Extract risk data from TRM response
+    const firstResult = trmResults[0] || {};
+    const riskScore = firstResult.risk || 0.5;
+    const riskLevel = riskScore >= 0.9 ? 'high' : riskScore >= 0.7 ? 'medium' : 'low';
+    
+    const trmData = {
+      riskScore,
+      riskLevel,
+      evidence: firstResult
+    };
+    
     console.log('TRM screening completed:', { riskScore: trmData.riskScore });
 
     // Step 3: Create case with tokenized data
