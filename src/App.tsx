@@ -10,6 +10,8 @@ import Performance from "./pages/Performance";
 import Playbooks from "./pages/Playbooks";
 import Activity from "./pages/Activity";
 import Guidelines from "./pages/Guidelines";
+import DemoPrivacy from "./pages/DemoPrivacy";
+import Compliance from "./pages/Compliance";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +30,8 @@ const App = () => (
             <Route path="/playbooks" element={<Playbooks />} />
             <Route path="/activity" element={<Activity />} />
             <Route path="/guidelines" element={<Guidelines />} />
+            <Route path="/demo-privacy" element={<DemoPrivacy />} />
+            <Route path="/compliance" element={<Compliance />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

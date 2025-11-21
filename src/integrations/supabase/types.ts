@@ -14,7 +14,153 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cases: {
+        Row: {
+          address_token: string | null
+          agent_version: string | null
+          case_number: string
+          created_at: string
+          decision: string | null
+          email_token: string | null
+          id: string
+          name_token: string | null
+          phone_token: string | null
+          priority: string | null
+          status: string
+          trm_evidence: Json | null
+          trm_risk_level: string | null
+          trm_risk_score: number | null
+          updated_at: string
+          wallet_address: string
+        }
+        Insert: {
+          address_token?: string | null
+          agent_version?: string | null
+          case_number: string
+          created_at?: string
+          decision?: string | null
+          email_token?: string | null
+          id?: string
+          name_token?: string | null
+          phone_token?: string | null
+          priority?: string | null
+          status?: string
+          trm_evidence?: Json | null
+          trm_risk_level?: string | null
+          trm_risk_score?: number | null
+          updated_at?: string
+          wallet_address: string
+        }
+        Update: {
+          address_token?: string | null
+          agent_version?: string | null
+          case_number?: string
+          created_at?: string
+          decision?: string | null
+          email_token?: string | null
+          id?: string
+          name_token?: string | null
+          phone_token?: string | null
+          priority?: string | null
+          status?: string
+          trm_evidence?: Json | null
+          trm_risk_level?: string | null
+          trm_risk_score?: number | null
+          updated_at?: string
+          wallet_address?: string
+        }
+        Relationships: []
+      }
+      compliance_metrics: {
+        Row: {
+          analyst_access_count: number
+          ccpa_compliant: boolean | null
+          created_at: string
+          data_residency: string | null
+          detokenization_requests: number
+          gdpr_compliant: boolean | null
+          id: string
+          metric_date: string
+          tokenization_percentage: number | null
+          tokenized_fields: number
+          total_pii_fields: number
+        }
+        Insert: {
+          analyst_access_count?: number
+          ccpa_compliant?: boolean | null
+          created_at?: string
+          data_residency?: string | null
+          detokenization_requests?: number
+          gdpr_compliant?: boolean | null
+          id?: string
+          metric_date?: string
+          tokenization_percentage?: number | null
+          tokenized_fields?: number
+          total_pii_fields?: number
+        }
+        Update: {
+          analyst_access_count?: number
+          ccpa_compliant?: boolean | null
+          created_at?: string
+          data_residency?: string | null
+          detokenization_requests?: number
+          gdpr_compliant?: boolean | null
+          id?: string
+          metric_date?: string
+          tokenization_percentage?: number | null
+          tokenized_fields?: number
+          total_pii_fields?: number
+        }
+        Relationships: []
+      }
+      demo_comparison: {
+        Row: {
+          created_at: string
+          id: string
+          raw_address: string | null
+          raw_email: string | null
+          raw_name: string | null
+          raw_phone: string | null
+          scenario_name: string
+          tokenized_address: string | null
+          tokenized_email: string | null
+          tokenized_name: string | null
+          tokenized_phone: string | null
+          trm_risk_score: number | null
+          wallet_address: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          raw_address?: string | null
+          raw_email?: string | null
+          raw_name?: string | null
+          raw_phone?: string | null
+          scenario_name: string
+          tokenized_address?: string | null
+          tokenized_email?: string | null
+          tokenized_name?: string | null
+          tokenized_phone?: string | null
+          trm_risk_score?: number | null
+          wallet_address: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          raw_address?: string | null
+          raw_email?: string | null
+          raw_name?: string | null
+          raw_phone?: string | null
+          scenario_name?: string
+          tokenized_address?: string | null
+          tokenized_email?: string | null
+          tokenized_name?: string | null
+          tokenized_phone?: string | null
+          trm_risk_score?: number | null
+          wallet_address?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

@@ -6,6 +6,8 @@ import {
   BookOpen,
   Activity,
   Shield,
+  ShieldCheck,
+  Eye,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +36,16 @@ const navItems = [
     title: "Architecture & Guidelines",
     href: "/guidelines",
     icon: Shield,
+  },
+  {
+    title: "Privacy Demo",
+    href: "/demo-privacy",
+    icon: Eye,
+  },
+  {
+    title: "Compliance Dashboard",
+    href: "/compliance",
+    icon: ShieldCheck,
   },
   {
     title: "Activity Log",
