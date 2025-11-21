@@ -31,6 +31,11 @@ const navItems = [
     icon: BookOpen,
   },
   {
+    title: "Guidelines",
+    href: "/guidelines",
+    icon: Shield,
+  },
+  {
     title: "Activity Log",
     href: "/activity",
     icon: Activity,

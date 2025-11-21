@@ -291,6 +291,38 @@ export default function Investigation() {
 
               <TabsContent value="multiple" className="space-y-4 mt-4">
                 <div className="space-y-2">
+                  <Label htmlFor="quick-select">Quick Select Addresses</Label>
+                  <Select
+                    value=""
+                    onValueChange={(address) => {
+                      if (address && !formData.wallets.includes(address)) {
+                        setFormData({ 
+                          ...formData, 
+                          wallets: formData.wallets 
+                            ? `${formData.wallets}\n${address}` 
+                            : address 
+                        });
+                      }
+                    }}
+                  >
+                    <SelectTrigger className="bg-background border-border">
+                      <SelectValue placeholder="Select common addresses..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb">Binance Hot Wallet</SelectItem>
+                      <SelectItem value="0x28C6c06298d514Db089934071355E5743bf21d60">Binance 14</SelectItem>
+                      <SelectItem value="0x21a31Ee1afC51d94C2eFcCAa2092aD1028285549">Binance 15</SelectItem>
+                      <SelectItem value="0xDFd5293D8e347dFe59E90eFd55b2956a1343963d">Binance 16</SelectItem>
+                      <SelectItem value="0x56Eddb7aa87536c09CCc2793473599fD21A8b17F">Binance Cold Wallet</SelectItem>
+                      <SelectItem value="0x5041ed759Dd4aFc3a72b8192C143F72f4724081A">Kraken Exchange</SelectItem>
+                      <SelectItem value="0x267be1C1D684F78cb4F6a176C4911b741E4Ffdc0">Kraken 2</SelectItem>
+                      <SelectItem value="0xE853c56864A2ebe4576a807D26Fdc4A0adA51919">Coinbase 10</SelectItem>
+                      <SelectItem value="0xA9D1e08C7793af67e9d92fe308d5697FB81d3E43">Coinbase 14</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="wallets">Wallet Addresses</Label>
                   <Textarea
                     id="wallets"
