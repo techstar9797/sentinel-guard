@@ -243,6 +243,176 @@ const Guidelines = () => {
         </Card>
       </div>
 
+      {/* Learning Cycle */}
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-semibold mb-2">Continuous Learning Cycle</h2>
+          <p className="text-muted-foreground">
+            How the Coach Agent drives system evolution and improvement over time
+          </p>
+        </div>
+
+        <Card className="p-8 bg-gradient-to-br from-card to-muted/20">
+          <div className="flex flex-col items-center space-y-6">
+            {/* Cycle Steps */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 w-full items-center">
+              {/* Step 1: Cases */}
+              <div className="flex flex-col items-center">
+                <div className="relative">
+                  <Card className="p-6 bg-primary/10 border-2 border-primary/30 hover:shadow-lg transition-all hover:scale-105">
+                    <div className="flex flex-col items-center text-center space-y-2">
+                      <div className="text-4xl mb-2">📋</div>
+                      <h3 className="font-bold text-sm">Cases & Labels</h3>
+                      <p className="text-xs text-muted-foreground">
+                        Real decisions with human feedback
+                      </p>
+                    </div>
+                  </Card>
+                  <div className="hidden md:block absolute -right-6 top-1/2 transform -translate-y-1/2 text-3xl text-primary animate-pulse">
+                    →
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 2: Coach Analysis */}
+              <div className="flex flex-col items-center">
+                <div className="relative">
+                  <Card className="p-6 bg-green-500/10 border-2 border-green-500/30 hover:shadow-lg transition-all hover:scale-105">
+                    <div className="flex flex-col items-center text-center space-y-2">
+                      <div className="text-4xl mb-2">📊</div>
+                      <h3 className="font-bold text-sm">Coach Analysis</h3>
+                      <p className="text-xs text-muted-foreground">
+                        Pattern identification & gap analysis
+                      </p>
+                    </div>
+                  </Card>
+                  <div className="hidden md:block absolute -right-6 top-1/2 transform -translate-y-1/2 text-3xl text-green-500 animate-pulse">
+                    →
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3: New Playbooks */}
+              <div className="flex flex-col items-center">
+                <div className="relative">
+                  <Card className="p-6 bg-blue-500/10 border-2 border-blue-500/30 hover:shadow-lg transition-all hover:scale-105">
+                    <div className="flex flex-col items-center text-center space-y-2">
+                      <div className="text-4xl mb-2">📚</div>
+                      <h3 className="font-bold text-sm">New Playbooks</h3>
+                      <p className="text-xs text-muted-foreground">
+                        Learned rules & patterns
+                      </p>
+                    </div>
+                  </Card>
+                  <div className="hidden md:block absolute -right-6 top-1/2 transform -translate-y-1/2 text-3xl text-blue-500 animate-pulse">
+                    →
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 4: Agent Update */}
+              <div className="flex flex-col items-center">
+                <div className="relative">
+                  <Card className="p-6 bg-orange-500/10 border-2 border-orange-500/30 hover:shadow-lg transition-all hover:scale-105">
+                    <div className="flex flex-col items-center text-center space-y-2">
+                      <div className="text-4xl mb-2">🔄</div>
+                      <h3 className="font-bold text-sm">Agent Version</h3>
+                      <p className="text-xs text-muted-foreground">
+                        Detective v2 → v3 → v4
+                      </p>
+                    </div>
+                  </Card>
+                  <div className="hidden md:block absolute -right-6 top-1/2 transform -translate-y-1/2 text-3xl text-orange-500 animate-pulse">
+                    →
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 5: Improved Metrics */}
+              <div className="flex flex-col items-center">
+                <Card className="p-6 bg-success/10 border-2 border-success/30 hover:shadow-lg transition-all hover:scale-105">
+                  <div className="flex flex-col items-center text-center space-y-2">
+                    <div className="text-4xl mb-2">📈</div>
+                    <h3 className="font-bold text-sm">Better Metrics</h3>
+                    <p className="text-xs text-muted-foreground">
+                      Higher APS, fewer errors
+                    </p>
+                  </div>
+                </Card>
+              </div>
+            </div>
+
+            {/* Feedback Loop Arrow */}
+            <div className="flex items-center justify-center w-full mt-4">
+              <div className="flex items-center gap-3 px-6 py-3 bg-muted rounded-full border-2 border-primary/20">
+                <span className="text-2xl animate-pulse">↻</span>
+                <p className="text-sm font-semibold text-muted-foreground">
+                  Continuous Feedback Loop
+                </p>
+              </div>
+            </div>
+
+            {/* Metrics Evolution Example */}
+            <div className="w-full mt-6 p-6 bg-background/50 rounded-lg border border-border">
+              <h4 className="font-semibold mb-4 text-center">Example: Agent Performance Evolution</h4>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <div className="text-xs font-semibold text-muted-foreground">Detective v2</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>APS:</span>
+                      <span className="font-bold">86.3</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>False Positives:</span>
+                      <span className="font-bold text-warning">12.8%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Playbooks:</span>
+                      <span className="font-bold">24</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-xs font-semibold text-muted-foreground">Detective v3</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>APS:</span>
+                      <span className="font-bold">91.7</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>False Positives:</span>
+                      <span className="font-bold text-warning">9.2%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Playbooks:</span>
+                      <span className="font-bold">31</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-xs font-semibold text-muted-foreground">Detective v4</div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>APS:</span>
+                      <span className="font-bold text-success">94.2</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>False Positives:</span>
+                      <span className="font-bold text-success">6.1%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Playbooks:</span>
+                      <span className="font-bold">38</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
+
       {/* Decision Guidelines */}
       <div className="space-y-4">
         <div>
