@@ -9,6 +9,7 @@ import Cases from "./pages/Cases";
 import Performance from "./pages/Performance";
 import Playbooks from "./pages/Playbooks";
 import Activity from "./pages/Activity";
+import Guidelines from "./pages/Guidelines";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/performance" element={<Performance />} />
             <Route path="/playbooks" element={<Playbooks />} />
             <Route path="/activity" element={<Activity />} />
+            <Route path="/guidelines" element={<Guidelines />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
