@@ -15,10 +15,13 @@ import { DecisionBadge } from "@/components/DecisionBadge";
 import { mockInvestigation } from "@/data/mock";
 import { InvestigationResult } from "@/types";
 import { Loader2, Play } from "lucide-react";
+import { screenSingleAddress } from "@/services/trmService";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Investigation() {
   const [isRunning, setIsRunning] = useState(false);
   const [result, setResult] = useState<InvestigationResult | null>(null);
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     wallet: "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb4",
     amount: "50000",
@@ -32,11 +35,72 @@ export default function Investigation() {
     setIsRunning(true);
     setResult(null);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      // Call TRM Labs API to screen the wallet
+      const trmResult = await screenSingleAddress(formData.wallet);
+      
+      // Create enhanced investigation result with real TRM data
+      const investigation: InvestigationResult = {
+        ...mockInvestigation,
+        wallet: formData.wallet,
+        trmSummary: {
+          ...mockInvestigation.trmSummary,
+          tags: trmResult.isSanctioned 
+            ? ["sanctioned_entity", "high_risk"]
+            : ["clean"],
+          riskScore: trmResult.isSanctioned ? 95 : 5,
+        },
+        riskScore: trmResult.isSanctioned ? 95 : 15,
+        decision: trmResult.isSanctioned ? "BLOCK" : mockInvestigation.decision,
+        explanation: trmResult.isSanctioned 
+          ? `Wallet ${formData.wallet} is flagged as sanctioned by TRM Labs. Transaction blocked.`
+          : `Wallet ${formData.wallet} passed TRM Labs screening with no sanctions found.`,
+        evidenceTrace: [
+          {
+            agent: "Watcher",
+            action: "Transaction prioritized for high-value screening",
+            timestamp: new Date().toISOString(),
+            details: {
+              amount: formData.amount,
+              currency: formData.currency,
+              priority: "HIGH"
+            }
+          },
+          {
+            agent: "Detective",
+            action: "TRM Labs sanctions screening completed",
+            timestamp: new Date().toISOString(),
+            details: {
+              address: formData.wallet,
+              isSanctioned: trmResult.isSanctioned,
+              source: "TRM Labs API"
+            }
+          },
+          ...mockInvestigation.evidenceTrace.slice(1),
+        ],
+      };
 
-    setResult(mockInvestigation);
-    setIsRunning(false);
+      setResult(investigation);
+      
+      toast({
+        title: "Analysis Complete",
+        description: trmResult.isSanctioned 
+          ? "⚠️ Sanctioned wallet detected" 
+          : "✓ Wallet screening passed",
+        variant: trmResult.isSanctioned ? "destructive" : "default",
+      });
+    } catch (error) {
+      console.error("Error running Sentinel:", error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to analyze transaction",
+        variant: "destructive",
+      });
+      // Fallback to mock data on error
+      setResult(mockInvestigation);
+    } finally {
+      setIsRunning(false);
+    }
   };
 
   const formatTimestamp = (timestamp: string) => {
