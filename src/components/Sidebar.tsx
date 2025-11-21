@@ -31,7 +31,7 @@ const navItems = [
     icon: BookOpen,
   },
   {
-    title: "Guidelines",
+    title: "Architecture & Guidelines",
     href: "/guidelines",
     icon: Shield,
   },
