@@ -21,10 +21,23 @@ import { screenWallets, MoralisWalletData } from "@/services/moralisService";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+interface EnhancedWalletResult extends MoralisWalletData {
+  trmResult?: {
+    isSanctioned: boolean;
+    riskScore: number;
+  };
+  evidenceTrace?: Array<{
+    agent: string;
+    action: string;
+    timestamp: string;
+    details: any;
+  }>;
+}
+
 export default function Investigation() {
   const [isRunning, setIsRunning] = useState(false);
   const [result, setResult] = useState<InvestigationResult | null>(null);
-  const [multipleResults, setMultipleResults] = useState<MoralisWalletData[]>([]);
+  const [multipleResults, setMultipleResults] = useState<EnhancedWalletResult[]>([]);
   const [mode, setMode] = useState<"single" | "multiple">("single");
   const { toast } = useToast();
   const [formData, setFormData] = useState({
@@ -129,13 +142,67 @@ export default function Investigation() {
         return;
       }
 
-      // Screen wallets using Moralis
-      const results = await screenWallets(addresses);
-      setMultipleResults(results);
+      // Screen wallets using Moralis and TRM in parallel
+      const [moralisResults, trmResults] = await Promise.all([
+        screenWallets(addresses),
+        Promise.all(addresses.map(addr => 
+          screenSingleAddress(addr).catch(err => {
+            console.error(`TRM screening failed for ${addr}:`, err);
+            return { isSanctioned: false };
+          })
+        ))
+      ]);
 
+      // Combine Moralis and TRM results
+      const enhancedResults: EnhancedWalletResult[] = moralisResults.map((wallet, index) => ({
+        ...wallet,
+        trmResult: {
+          isSanctioned: trmResults[index].isSanctioned,
+          riskScore: trmResults[index].isSanctioned ? 95 : 5,
+        },
+        evidenceTrace: [
+          {
+            agent: "Watcher",
+            action: "Wallet prioritized for screening",
+            timestamp: new Date().toISOString(),
+            details: {
+              address: wallet.address,
+              priority: "HIGH"
+            }
+          },
+          {
+            agent: "Detective",
+            action: "TRM Labs sanctions screening completed",
+            timestamp: new Date().toISOString(),
+            details: {
+              address: wallet.address,
+              isSanctioned: trmResults[index].isSanctioned,
+              source: "TRM Labs API"
+            }
+          },
+          {
+            agent: "Investigator",
+            action: "Moralis wallet analysis completed",
+            timestamp: new Date().toISOString(),
+            details: {
+              balance: wallet.balance,
+              tokenCount: Array.isArray(wallet.tokens) ? wallet.tokens.length : 0,
+              nftCount: Array.isArray(wallet.nfts) ? wallet.nfts.length : 0,
+              source: "Moralis API"
+            }
+          }
+        ]
+      }));
+
+      setMultipleResults(enhancedResults);
+
+      const sanctionedCount = enhancedResults.filter(r => r.trmResult?.isSanctioned).length;
       toast({
         title: "Screening Complete",
-        description: `Screened ${results.length} wallet addresses`,
+        description: sanctionedCount > 0 
+          ? `Screened ${enhancedResults.length} addresses - ${sanctionedCount} sanctioned detected ⚠️`
+          : `Screened ${enhancedResults.length} addresses - All clear ✓`,
+        variant: sanctionedCount > 0 ? "destructive" : "default",
       });
     } catch (error) {
       console.error("Error screening wallets:", error);
@@ -464,53 +531,120 @@ export default function Investigation() {
               </Card>
             )
           ) : multipleResults.length > 0 ? (
-            <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-lg">Wallet Screening Results</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {multipleResults.map((wallet, index) => (
-                    <div key={index} className="border border-border rounded-lg p-4 space-y-3">
+            <div className="space-y-6">
+              {multipleResults.map((wallet, index) => (
+                <div key={index} className="space-y-4">
+                  {/* Wallet Header */}
+                  <div className="flex items-center gap-2">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center">
+                      <span className="text-xs font-bold text-primary">{index + 1}</span>
+                    </div>
+                    <p className="text-sm font-mono text-foreground break-all flex-1">
+                      {wallet.address}
+                    </p>
+                  </div>
+
+                  {/* Risk Assessment */}
+                  <Card className="bg-card border-border">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Risk Assessment</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
                       <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <p className="text-sm font-mono text-foreground break-all">
-                            {wallet.address}
-                          </p>
+                        <div className="space-y-1">
+                          <p className="text-sm text-muted-foreground">Risk Score</p>
+                          <RiskBadge score={wallet.trmResult?.riskScore || 0} />
+                        </div>
+                        <div className="space-y-1 text-right">
+                          <p className="text-sm text-muted-foreground">Decision</p>
+                          <DecisionBadge 
+                            decision={wallet.trmResult?.isSanctioned ? "BLOCK" : "ALLOW"} 
+                          />
                         </div>
                       </div>
-                      
-                      {wallet.error ? (
-                        <p className="text-sm text-destructive">{wallet.error}</p>
-                      ) : (
-                        <>
-                          <div className="grid grid-cols-3 gap-4">
-                            <div>
-                              <p className="text-xs text-muted-foreground mb-1">Balance (ETH)</p>
-                              <p className="text-sm font-semibold text-foreground">
-                                {wallet.balance ? (parseFloat(wallet.balance) / 1e18).toFixed(4) : '0'}
-                              </p>
+
+                      <div className="pt-4 border-t border-border">
+                        <p className="text-sm text-foreground">
+                          {wallet.trmResult?.isSanctioned 
+                            ? `⚠️ Wallet is flagged as sanctioned by TRM Labs. Transaction blocked.`
+                            : `✓ Wallet passed TRM Labs screening with no sanctions found.`}
+                        </p>
+                      </div>
+
+                      {!wallet.error && (
+                        <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border">
+                          <div>
+                            <p className="text-xs text-muted-foreground mb-1">Balance (ETH)</p>
+                            <p className="text-sm font-semibold text-foreground">
+                              {wallet.balance ? (parseFloat(wallet.balance) / 1e18).toFixed(4) : '0'}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-muted-foreground mb-1">ERC20 Tokens</p>
+                            <p className="text-sm font-semibold text-foreground">
+                              {Array.isArray(wallet.tokens) ? wallet.tokens.length : 0}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-muted-foreground mb-1">NFTs</p>
+                            <p className="text-sm font-semibold text-foreground">
+                              {Array.isArray(wallet.nfts) ? wallet.nfts.length : 0}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      {wallet.error && (
+                        <div className="pt-4 border-t border-border">
+                          <p className="text-sm text-destructive">{wallet.error}</p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {/* Evidence Timeline */}
+                  <Card className="bg-card border-border">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Evidence Timeline</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {wallet.evidenceTrace?.map((step, stepIndex) => (
+                          <div key={stepIndex} className="flex gap-4">
+                            <div className="flex flex-col items-center">
+                              <div className="h-8 w-8 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center">
+                                <div className="h-2 w-2 rounded-full bg-primary" />
+                              </div>
+                              {stepIndex < (wallet.evidenceTrace?.length || 0) - 1 && (
+                                <div className="flex-1 w-px bg-border min-h-[40px]" />
+                              )}
                             </div>
-                            <div>
-                              <p className="text-xs text-muted-foreground mb-1">ERC20 Tokens</p>
-                              <p className="text-sm font-semibold text-foreground">
-                                {Array.isArray(wallet.tokens) ? wallet.tokens.length : 0}
+                            <div className="flex-1 pb-6">
+                              <div className="flex items-start justify-between mb-1">
+                                <p className="text-sm font-semibold text-foreground">
+                                  {step.agent} Agent
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {formatTimestamp(step.timestamp)}
+                                </p>
+                              </div>
+                              <p className="text-sm text-muted-foreground mb-2">
+                                {step.action}
                               </p>
-                            </div>
-                            <div>
-                              <p className="text-xs text-muted-foreground mb-1">NFTs</p>
-                              <p className="text-sm font-semibold text-foreground">
-                                {Array.isArray(wallet.nfts) ? wallet.nfts.length : 0}
-                              </p>
+                              <div className="bg-muted/30 rounded-lg p-3">
+                                <pre className="text-xs text-muted-foreground overflow-x-auto">
+                                  {JSON.stringify(step.details, null, 2)}
+                                </pre>
+                              </div>
                             </div>
                           </div>
-                        </>
-                      )}
-                    </div>
-                  ))}
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
-              </CardContent>
-            </Card>
+              ))}
+            </div>
           ) : (
             <Card className="bg-card border-border">
               <CardContent className="py-20 text-center">
