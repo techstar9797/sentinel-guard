@@ -1,5 +1,10 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card } from "@/components/ui/card";
+import redisLogo from "@/assets/logos/redis-logo.png";
+import anthropicLogo from "@/assets/logos/anthropic-logo.png";
+import awsLogo from "@/assets/logos/aws-logo.png";
+import skyflowLogo from "@/assets/logos/skyflow-logo.png";
+import cursorLogo from "@/assets/logos/cursor-logo.png";
 
 const Guidelines = () => {
   const guidelines = [
@@ -26,11 +31,11 @@ const Guidelines = () => {
   ];
 
   const partners = [
-    { name: "Redis", color: "#DC382D" },
-    { name: "Anthropic", color: "#191919" },
-    { name: "AWS", color: "#FF9900" },
-    { name: "Skyflow", color: "#0066FF" },
-    { name: "Cursor", color: "#000000" },
+    { name: "Redis", logo: redisLogo },
+    { name: "Anthropic", logo: anthropicLogo },
+    { name: "AWS", logo: awsLogo },
+    { name: "Skyflow", logo: skyflowLogo },
+    { name: "Cursor", logo: cursorLogo },
   ];
 
   const getVariantStyles = (variant: string) => {
@@ -87,15 +92,14 @@ const Guidelines = () => {
           {partners.map((partner) => (
             <div
               key={partner.name}
-              className="flex items-center justify-center px-6 py-3 rounded-lg bg-card border border-border hover:shadow-md transition-shadow"
+              className="flex items-center justify-center px-6 py-4 rounded-lg bg-card border border-border hover:shadow-md transition-shadow"
               style={{ minWidth: "120px" }}
             >
-              <span
-                className="text-xl font-bold"
-                style={{ color: partner.color }}
-              >
-                {partner.name}
-              </span>
+              <img
+                src={partner.logo}
+                alt={`${partner.name} logo`}
+                className="h-12 w-auto object-contain"
+              />
             </div>
           ))}
         </div>
