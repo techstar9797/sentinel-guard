@@ -2,3 +2,6 @@ project_id = "akhrktpddxaizspnikgb"
 
 [functions.trm-screen]
 verify_jwt = false
+
+[functions.moralis-screen]
+verify_jwt = false
