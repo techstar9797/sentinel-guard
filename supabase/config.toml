@@ -1,1 +1,4 @@
 project_id = "akhrktpddxaizspnikgb"
+
+[functions.trm-screen]
+verify_jwt = false
