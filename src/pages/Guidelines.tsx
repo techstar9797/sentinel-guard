@@ -1,10 +1,10 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card } from "@/components/ui/card";
+import trmLogo from "@/assets/logos/trm-logo.png";
 import redisLogo from "@/assets/logos/redis-logo.png";
 import anthropicLogo from "@/assets/logos/anthropic-logo.png";
 import awsLogo from "@/assets/logos/aws-logo.png";
 import skyflowLogo from "@/assets/logos/skyflow-logo.png";
-import cursorLogo from "@/assets/logos/cursor-logo.png";
 
 const Guidelines = () => {
   const guidelines = [
@@ -31,11 +31,11 @@ const Guidelines = () => {
   ];
 
   const partners = [
+    { name: "TRM", logo: trmLogo },
     { name: "Redis", logo: redisLogo },
     { name: "Anthropic", logo: anthropicLogo },
     { name: "AWS", logo: awsLogo },
     { name: "Skyflow", logo: skyflowLogo },
-    { name: "Cursor", logo: cursorLogo },
   ];
 
   const getVariantStyles = (variant: string) => {
@@ -85,9 +85,9 @@ const Guidelines = () => {
       </Card>
 
       <div className="pt-12 border-t border-border">
-        <p className="text-center text-sm text-muted-foreground mb-6">
+        <h2 className="text-center text-2xl font-semibold text-foreground mb-8">
           Thanks to the support in building this
-        </p>
+        </h2>
         <div className="flex justify-center items-center gap-8 flex-wrap">
           {partners.map((partner) => (
             <div
